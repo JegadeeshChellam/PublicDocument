@@ -1,0 +1,123 @@
+public class TestClass {
+    
+    public string name ;
+    public string industry;
+    
+    public void callmethod(){
+        name = 'ABC';
+        industry = 'Other';
+    }
+    public void invokemethod(){
+         name = 'DEF';
+        industry = 'Customer';
+    }
+}
+
+@isTest
+public class TestClassTest {
+    
+    @isTest
+    public static void testmethods(){
+        TestClass obj = new TestClass();
+        obj.callmethod();
+        Assert.areEqual('ABC', obj.name);
+         Assert.areEqual('Others', obj.industry);
+        obj.invokemethod();
+         Assert.areEqual('DEF', obj.name);
+    }
+    
+}
+
+public class TestClass {
+    
+    public string name ;
+    public string industry;
+    public string rating;
+    
+    public void demomethod(){
+        if(rating =='Hot'){
+            name ='ABC';
+            industry ='other';
+        }else if(rating =='Cold'){
+            name = 'DEF';
+            industry ='customer';
+        }else{
+            name ='GHI';
+            industry ='Customer-Direct';
+        }
+    }
+}
+
+@isTest
+public class TestClassTest {
+    
+    @isTest
+    public static void testmethods(){
+        TestClass obj = new TestClass();
+        obj.rating='Hot';
+        obj.demomethod();
+        Assert.areEqual('ABC', obj.name);
+        Assert.areNotEqual('SST', obj.name);
+        obj.rating='Cold';
+        obj.demomethod();
+        Assert.areEqual('DEF', obj.name);
+        Assert.areNotEqual('SST', obj.name);
+        obj.rating ='warm';
+        obj.demomethod();
+        Assert.areEqual('GHI', obj.name);
+        Assert.areNotEqual('SST', obj.name);
+    }
+    
+}
+
+public class TestClass {
+    
+    
+    public void createmethod(){
+        
+        Account acc = new Account();
+        acc.Name ='Demo Test';
+        acc.Rating ='Hot';
+        acc.Phone='56765445';
+        
+        insert acc;
+            
+    }
+    public void updatemethod(){
+        List<Account> accObj = [select id ,Rating from Account where createdDate =Today];
+        
+        for(Account acc : accobj){
+            acc.Rating ='cold';
+        }
+        update accObj;
+    }
+    public void deletemethod(){
+        List<Account> accObj = [select id ,Rating from Account where createdDate =Today];
+        delete accObj;
+        
+    }
+}
+
+@isTest
+public class TestClassTest {
+    
+    @isTest
+    public static void testmethods(){
+         
+        TestClass obj = new TestClass();
+        obj.createmethod();//Account=Name=:'Demo Test',Rating ='Hot',Phone='56765445';
+        
+        integer count = [select count() from Account where Name='Demo Test'];
+        
+        Assert.areEqual(1, count);
+        obj.updatemethod();
+        Account acclist = [select id , Rating from Account where Name ='Demo Test'];
+        Assert.areEqual('Cold', acclist.Rating);
+        
+        obj.deletemethod();
+        integer counts = [select count() from Account where Name='Demo Test'];
+        
+        Assert.areEqual(1, counts);
+    }
+    
+}
